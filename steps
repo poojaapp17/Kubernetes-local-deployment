@@ -1,0 +1,106 @@
+
+## Prerequisites
+
+Before starting, make sure the following are installed and configured:
+
+* Docker Desktop installed on your system
+* Kubernetes enabled in Docker Desktop
+* `kubectl` command-line tool installed
+* Basic knowledge of terminal/command prompt
+
+
+## Step 1: Verify Kubernetes Cluster Status
+Run the following command to check whether the local Kubernetes cluster is running:
+
+```bash
+kubectl get nodes
+```
+
+### Explanation:
+
+* This command lists all Kubernetes nodes.
+* If Kubernetes is running correctly, the node status should be `Ready`.
+
+---
+
+## Step 2: Deploy NGINX Using a Deployment YAML File
+
+Apply the deployment configuration using:
+
+```bash
+kubectl apply -f nginx-deployment.yaml
+```
+### Explanation:
+
+* This command creates a **Deployment** in Kubernetes.
+* The Deployment manages the NGINX container and ensures the required number of Pods are running.
+* Kubernetes pulls the official NGINX image and runs it inside a Pod.
+
+---
+
+## Step 3: Check Pod Status
+
+Verify that the Pod is running:
+
+```bash
+kubectl get pods
+```
+
+### Explanation:
+
+* This command shows all Pods created by the Deployment.
+* The status should be `Running`, indicating NGINX is running successfully.
+
+---
+
+## Step 4: Expose the Deployment Using a NodePort Service
+
+Expose the application externally using:
+
+```bash
+kubectl expose deployment hello --type=NodePort --port=80
+```
+
+### Explanation:
+
+* Pods are internal to Kubernetes and cannot be accessed directly.
+* A **Service** of type `NodePort` exposes the application on a port of the local machine.
+* Traffic from the browser is forwarded to the NGINX Pod.
+
+---
+
+## Step 5: Get Service Details
+
+Retrieve the service information:
+
+```bash
+kubectl get services
+```
+
+### Explanation:
+
+* This command displays all Kubernetes services.
+* Note the **NodePort** number assigned (for example: `30777`).
+
+---
+
+## Step 6: Access the Application in the Browser
+
+Open a browser and navigate to:
+
+```
+http://localhost:<NodePort>
+```
+
+### Example:
+
+```
+http://localhost:30777
+```
+
+### Result:
+
+* The NGINX welcome page should appear, confirming successful deployment.
+
+---
+
